@@ -23,7 +23,7 @@ app.post(
 );
 
 app.use(cors(
-    {origin:"http://localhost:5173",
+    {origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "http://localhost:5176"],
         credentials:true,
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     }
@@ -35,7 +35,7 @@ app.use(express.json())
 app.use(cookieParser())
 const PORT = process.env.PORT || 5000
 app.get("/",(req,res)=>{
-    res.json({message:"ExamNotes AI Backend Running 🚀"})
+    res.json({message:"NotecraftZ AI Backend Running 🚀"})
 
 })
 app.use("/api/auth" , authRouter)

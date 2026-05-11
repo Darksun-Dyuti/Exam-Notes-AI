@@ -19,6 +19,18 @@ const userSchema = new mongoose.Schema({
         type:Boolean,
         default:true
     },
+    bio:{
+        type:String,
+        default:""
+    },
+    educationLevel:{
+        type:String,
+        default:""
+    },
+    targetExam:{
+        type:String,
+        default:""
+    },
     notes:{
         type:[mongoose.Schema.Types.ObjectId],
         ref:"Notes",

@@ -7,11 +7,15 @@ import axios from "axios"
 import { serverUrl } from '../App';
 import { useDispatch } from 'react-redux';
 import { setUserData } from '../redux/userSlice';
+import Footer from '../components/Footer';
+import ThemeToggle from '../components/ThemeToggle';
+import logo from "../assets/logo.png"
+import { LuGift, LuBook, LuFolder, LuChartBar, LuDownload } from "react-icons/lu"
+
 function Auth() {
   const dispatch = useDispatch()
 
   const handleGoogleAuth = async () => {
-    
     try {
       const response = await signInWithPopup(auth,provider)
       const User = response.user
@@ -25,112 +29,116 @@ function Auth() {
       console.log(error)
     }
   }
-  return (
-    <div className='min-h-screen overflow-hidden bg-white text-black px-8'>
-        <motion.header 
-        initial = {{opacity: 0 , y:-15}}
-        animate = {{opacity:1 , y:0}}
-        transition={{duration:1.5}}
-       
-        className=" max-w-7xl mx-auto mt-8
-          rounded-2xl
-          bg-black/80 backdrop-blur-xl
-          border border-white/10
-          px-8 py-6
-          shadow-[0_20px_45px_rgba(0,0,0,0.6)]"
-          >
-            <h1 className='text-2xl font-bold
-            bg-linear-to-r from-white via-gray-300 to-white
-            bg-clip-text text-transparent'>ExamNotes AI</h1>
-            <p className='text-sm text-gray-300 mt-1'>AI-powered exam-oriented notes & revision</p>
 
+  return (
+    <div className='min-h-screen overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white relative transition-colors duration-300'>
+        {/* Background gradients */}
+        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-indigo-600/5 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-600/5 rounded-full blur-[120px] pointer-events-none" />
+
+        <motion.header 
+          initial={{opacity: 0, y: -15}}
+          animate={{opacity: 1, y: 0}}
+          transition={{duration: 0.8, ease: "easeOut"}}
+          className="relative z-20 mx-4 md:mx-auto max-w-5xl mt-6
+            rounded-full
+            bg-white/60 dark:bg-slate-900/50
+            backdrop-blur-xl
+            border border-slate-200/50 dark:border-white/10
+            shadow-lg
+            flex items-center justify-between px-6 py-3"
+        >
+            <div className='flex items-center gap-3'>
+                <img src={logo} alt="NotecraftZ AI" className='w-9 h-9' />
+                <span className='text-lg hidden md:block font-semibold text-slate-900 dark:text-white tracking-tight'>
+                    NotecraftZ <span className='text-indigo-500 dark:text-indigo-400'>AI</span>
+                </span>
+            </div>
+            <div className="flex items-center gap-4">
+                <p className='hidden sm:block text-sm text-slate-600 dark:text-gray-300'>AI-powered exam notes</p>
+                <ThemeToggle />
+            </div>
         </motion.header>
 
-        <main className='max-w-7xl mx-auto py-10 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center'>
+        <main className='relative z-10 max-w-7xl mx-auto px-8 py-20 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center min-h-[70vh]'>
         
-        {/* LEFT CONTENT */}
-        <motion.div 
-         initial = {{opacity: 0 , x:-60}}
-        animate = {{opacity:1 , x:0}}
-        transition={{duration:0.7}}
-        >
-            <h1 className='text-5xl lg:text-6xl font-extrabold leading-tight
-              bg-gradient-to-br from-black/90 via-black/60 to-black/90
-              bg-clip-text text-transparent'>
-                Unlock Smart <br /> AI Notes
+          {/* LEFT CONTENT */}
+          <motion.div 
+            initial={{opacity: 0, x: -60}}
+            animate={{opacity: 1, x: 0}}
+            transition={{duration: 0.7}}
+          >
+              <h1 className='text-5xl lg:text-7xl font-extrabold leading-tight tracking-tight
+                bg-gradient-to-br from-slate-900 via-slate-800 to-slate-500 
+                dark:from-white dark:via-white dark:to-gray-400
+                bg-clip-text text-transparent'>
+                  Unlock Smart <br /> AI Notes
               </h1>
               <motion.button
-              onClick={handleGoogleAuth}
-              whileHover={{
-                y:-10,
-                rotateX:8,
-                rotateY:-8,
-                scale:1.07
-              }}
-              whileTap={{scale:0.97}}
-              transition={{ type: "spring", stiffness: 200, damping: 18 }}
-               className='mt-10 px-10 py-3 rounded-xl
-              flex items-center gap-3
-              bg-gradient-to-br from-black/90 via-black/80 to-black/90
-              border border-white/10
-              text-white font-semibold text-lg
-              shadow-[0_25px_60px_rgba(0,0,0,0.7)]'>
-                <FcGoogle size={22}/>
-                Continue with Google
-
-
+                onClick={handleGoogleAuth}
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow: "0 0 30px rgba(99, 102, 241, 0.4)"
+                }}
+                whileTap={{scale: 0.95}}
+                className='mt-10 px-8 py-4 rounded-full
+                flex items-center gap-3
+                bg-white dark:bg-slate-800
+                border border-slate-200 dark:border-white/10
+                text-slate-900 dark:text-white font-semibold text-lg
+                shadow-xl hover:shadow-2xl transition-all duration-300'
+              >
+                  <FcGoogle size={24}/>
+                  Continue with Google
               </motion.button>
 
-              <p className=' mt-6 max-w-xl text-lg
-              bg-gradient-to-br from-gray-700 via-gray-500/80 to-gray-700
-              bg-clip-text text-transparent'>
-                You get <span className="font-semibold">50 FREE credits</span> to create
-            exam notes, project notes, charts, graphs and
-            download clean PDFs — instantly using AI.
+              <p className='mt-8 max-w-xl text-lg text-slate-600 dark:text-gray-400 font-light leading-relaxed'>
+                  You get <span className="font-semibold text-indigo-600 dark:text-indigo-400">50 FREE credits</span> to create
+                  exam notes, project notes, charts, graphs and
+                  download clean PDFs — instantly using AI.
               </p>
-              <p className='mt-4 text-sm text-gray-500'> Start with 50 free credits • Upgrade anytime for more credits • Instant access</p>
+              <p className='mt-4 text-sm text-slate-500 dark:text-gray-500'>
+                  Start with 50 free credits • Upgrade anytime • Instant access
+              </p>
+          </motion.div>
 
-        </motion.div>
-
-        {/* RIGHT CONTENT */}
-        <div className='grid grid-cols-1 sm:grid-cols-2 gap-8'>
-            <Feature icon="🎁" title="50 Free Credits" des="Start with 50 credits to generate notes without paying."/>
-             <Feature icon="📘" title="Exam Notes" des="High-yield, revision-ready exam-oriented notes." />
-          <Feature icon="📂" title="Project Notes" des="Well-structured documentation for assignments & projects." />
-          <Feature icon="📊" title="Charts & Graphs" des="Auto-generated diagrams, charts and flow graphs." />
-          <Feature icon="⬇️" title="Free PDF Download" des="Download clean, printable PDFs instantly." />
-
-        </div>
-
-
+          {/* RIGHT CONTENT */}
+          <motion.div 
+            initial={{opacity: 0, x: 60}}
+            animate={{opacity: 1, x: 0}}
+            transition={{duration: 0.7}}
+            className='grid grid-cols-1 sm:grid-cols-2 gap-6'
+          >
+              <Feature icon={<LuGift />} title="50 Free Credits" des="Start generating notes without paying."/>
+              <Feature icon={<LuBook />} title="Exam Notes" des="High-yield, revision-ready materials." />
+              <Feature icon={<LuFolder />} title="Project Notes" des="Well-structured documentation." />
+              <Feature icon={<LuChartBar />} title="Charts & Graphs" des="Auto-generated diagrams." />
+              <Feature icon={<LuDownload />} title="PDF Download" des="Download printable PDFs instantly." />
+          </motion.div>
         </main>
       
+        <Footer />
     </div>
   )
 }
-function Feature({icon , title , des}){
+
+function Feature({icon, title, des}) {
     return(
         <motion.div 
-        whileHover={{ y: -12, rotateX: 8, rotateY: -8, scale: 1.05 }}
-       transition={{ type: "spring", stiffness: 200, damping: 18 }}
-        className='relative rounded-2xl p-6
-        bg-gradient-to-br from-black/90 via-black/80 to-black/90
-        backdrop-blur-2xl
-        border border-white/10
-        shadow-[0_30px_80px_rgba(0,0,0,0.7)]
-        text-white'
-         style={{ transformStyle: "preserve-3d" }}
+          whileHover={{ y: -8, scale: 1.02 }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          className='relative rounded-2xl p-6
+          bg-white/60 dark:bg-slate-900/50
+          backdrop-blur-xl
+          border border-slate-200/50 dark:border-white/5
+          shadow-xl
+          hover:bg-slate-50/60 dark:hover:bg-slate-800/50 transition-colors'
         >
-         
-            <div className='relative z-10' style={{ transform: "translateZ(30px)" }}>
-                 <div className="text-4xl mb-3">{icon}</div>
-        <h3 className="text-lg font-semibold mb-2">{title}</h3>
-        <p className="text-gray-300 text-sm leading-relaxed">{des}</p>
-
+            <div className='relative z-10'>
+                <div className="text-4xl mb-3">{icon}</div>
+                <h3 className="text-lg font-semibold mb-2 text-slate-900 dark:text-white">{title}</h3>
+                <p className="text-slate-600 dark:text-gray-400 text-sm leading-relaxed">{des}</p>
             </div>
-          
-
-
         </motion.div>
     )
 }

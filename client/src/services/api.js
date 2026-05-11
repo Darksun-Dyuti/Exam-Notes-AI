@@ -36,12 +36,22 @@ export const downloadPdf = async (result) => {
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "ExamNotesAI.pdf";
+    link.download = "NotecraftZAI.pdf";
     link.click();
 
     window.URL.revokeObjectURL(url);
     } catch (error) {
          throw new Error("PDF download failed");
 
+    }
+}
+
+export const updateUserProfile = async (payload) => {
+    try {
+        const result = await axios.put(serverUrl + "/api/user/update", payload, { withCredentials: true });
+        return result.data;
+    } catch (error) {
+        console.log(error);
+        throw error;
     }
 }

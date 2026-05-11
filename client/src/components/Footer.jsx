@@ -2,80 +2,49 @@ import React from 'react'
 import { motion } from "motion/react"
 import logo from "../assets/logo.png"
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import axios from 'axios'
-import { serverUrl } from '../App'
-import { setUserData } from '../redux/userSlice'
+
 function Footer() {
-    const navigate = useNavigate()
-     const dispatch = useDispatch()
-        const handleSignOut = async () => {
-            try {
-                await axios.get(serverUrl+ "/api/auth/logout" , {withCredentials:true})
-                dispatch(setUserData(null))
-                navigate("/auth")
-                
-                
-            } catch (error) {
-                console.log(error)
-            }
-        }
+  const navigate = useNavigate()
+
   return (
-    <motion.div 
-    initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
+    <motion.footer
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
-    className='z-10 mx-6 mb-6 mt-24
-  rounded-3xl
-  bg-slate-900/50
-  backdrop-blur-xl
-  border border-white/5
-  px-8 py-8
-  shadow-xl'>
-    <div className='grid grid-cols-1 md:grid-cols-3 gap-8 items-start'>
-        <motion.div 
-        whileHover={{ y: -4 }}
-          className="flex flex-col gap-4">
-            <div className="flex items-center gap-3 cursor-pointer">
-                <img src={logo} alt="logo" className='h-9 w-9 object-contain' />
-                <span className="text-lg font-semibold text-white tracking-tight">
-                 Examify<span className="text-indigo-400">.AI</span>
-              </span>
+      className='z-10 mt-24 border-t border-slate-200 dark:border-white/10 pt-10 pb-6 w-full max-w-7xl mx-auto px-6'
+    >
+      <div className='flex flex-col md:flex-row justify-between items-center md:items-start gap-8'>
 
-            </div>
-            <p className="text-sm text-gray-300 max-w-sm">Examify.AI helps students generate exam-focused notes,
-            revision material, diagrams, and printable PDFs using AI.</p>
-
-        </motion.div>
-
-        <div className='text-center'>
-            <h1 className='text-sm font-semibold text-white mb-4'>Quick Links</h1>
-            <ul className='space-y-2 text-sm'>
-                <li onClick={()=>navigate("/notes")} className='text-gray-300 hover:text-white transition-colors'>
-                    Notes
-                </li>
-                <li onClick={()=>navigate("/history")} className='text-gray-300 hover:text-white transition-colors'>History</li>
-                <li onClick={()=>navigate("/pricing")} className='text-gray-300 hover:text-white transition-colors'>Add Credits</li>
-            </ul>
-        </div>
- <div className='text-center'>
-            <h1 className='text-sm font-semibold text-white mb-4'>Support & Account</h1>
-            <ul className='space-y-2 text-sm'>
-                <li onClick={handleSignOut} className='text-red-400 hover:text-red-300 transition-colors'>SignOut</li>
-                <li className='text-gray-300 hover:text-white transition-colors cursor-pointer'>support@examify.ai</li>
-            </ul>
+        <div className="flex flex-col items-center md:items-start gap-3">
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
+            <img src={logo} alt="logo" className='h-7 w-7 object-contain' />
+            <span className="text-md font-semibold text-slate-900 dark:text-white tracking-tight">
+              NotecraftZ <span className="text-indigo-500 dark:text-indigo-400">AI</span>
+            </span>
+          </div>
+          <p className="text-xs text-slate-500 dark:text-gray-400 max-w-xs text-center md:text-left">
+            Generate exam-focused notes, diagrams, and PDFs using AI.
+          </p>
         </div>
 
-    </div>
-     <div className="my-6 h-px bg-white/10" />
-     <p className='text-center text-xs text-gray-500'>
-        © {new Date().getFullYear()} Examify.AI. All rights reserved.
-     </p>
-   
+        <div className='flex gap-6 text-sm text-slate-500 dark:text-gray-400'>
+          <span onClick={() => navigate("/notes")} className='hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer'>Notes</span>
+          <span onClick={() => navigate("/history")} className='hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer'>History</span>
+          <span onClick={() => navigate("/pricing")} className='hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer'>Credits</span>
+          <a href="mailto:support@notecraftz.ai" className='hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer'>Support</a>
+        </div>
+      </div>
 
-      
-    </motion.div>
+      <div className="mt-10 pt-6 border-t border-slate-100 dark:border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p className='text-xs text-slate-400 dark:text-gray-500'>
+          © {new Date().getFullYear()} NotecraftZ AI. All rights reserved.
+        </p>
+        <p className='text-xs font-mono font-medium text-slate-500 dark:text-gray-400 tracking-widest'>
+          MADE BY DYUTIMOY
+        </p>
+      </div>
+    </motion.footer>
   )
 }
 

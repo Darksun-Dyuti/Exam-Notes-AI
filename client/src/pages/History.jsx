@@ -6,24 +6,24 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { GiHamburgerMenu } from "react-icons/gi";
 import FinalResult from '../components/FinalResult'
+import Navbar from '../components/Navbar'
+import { LuPlus, LuHistory, LuZap, LuChartPie, LuChartBar, LuArrowLeft } from "react-icons/lu";
 
 function History() {
   const [topics, setTopics] = useState([])
-   const navigate = useNavigate()
+  const navigate = useNavigate()
   const { userData } = useSelector((state) => state.user)
-  const credits = userData.credits
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-const [activeNoteId, setActiveNoteId] = useState(null);
+  const [activeNoteId, setActiveNoteId] = useState(null);
 
   const [selectedNote, setSelectedNote] = useState(null);
   const [loading, setLoading] = useState(false);
+  
   useEffect(() => {
     const myNotes = async () => {
       try {
         const res = await axios.get(serverUrl + "/api/notes/getnotes", { withCredentials: true })
-        console.log(res.data)
         setTopics(Array.isArray(res.data) ? res.data : [])
-
       } catch (error) {
         console.log(error)
       }
@@ -34,197 +34,136 @@ const [activeNoteId, setActiveNoteId] = useState(null);
   const openNotes = async (noteId) => {
     setLoading(true)
     setActiveNoteId(noteId)
-try {
-  const res = await axios.get(serverUrl + `/api/notes/${noteId}`,{withCredentials:true})
-
-  setSelectedNote(res.data.content)
-setLoading(false)
-} catch (error) {
-  console.log(error)
-  setLoading(false)
-}
-
-    
+    try {
+      const res = await axios.get(serverUrl + `/api/notes/${noteId}`, { withCredentials: true })
+      setSelectedNote(res.data.content)
+      setLoading(false)
+      if (window.innerWidth < 1024) {
+        setIsSidebarOpen(false); // Close sidebar on mobile after selection
+      }
+    } catch (error) {
+      console.log(error)
+      setLoading(false)
+    }
   }
-
-
-
-
 
   useEffect(() => {
-  if (window.innerWidth >= 1024) {
-    setIsSidebarOpen(true)
-  }
-}, [])
-
-
+    if (window.innerWidth >= 1024) {
+      setIsSidebarOpen(true)
+    }
+  }, [])
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 px-6 py-8'>
+    <div className='min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white transition-colors duration-300 flex flex-col'>
+      
+      {/* Top Navigation */}
+      <div className="z-50">
+        <Navbar />
+      </div>
 
-      <motion.header
-        initial={{ opacity: 0, y: -15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="
-      mb-10
-      rounded-2xl
-      bg-black/80 backdrop-blur-xl
-      border border-white/10
-      px-8 py-6 items-start
-      flex justify-between md:items-center gap-4 flex-wrap 
-      shadow-[0_20px_45px_rgba(0,0,0,0.6)]
-    ">
-      <div onClick={() => navigate("/")} className='cursor-pointer'><h1 className='text-2xl font-bold
-                  bg-linear-to-r from-white via-gray-300 to-white
-                  bg-clip-text text-transparent'>ExamNotes AI</h1>
-                <p className='text-sm text-gray-300 mt-1'>AI-powered exam-oriented notes & revision</p></div>
-      
-              <div className='flex items-center gap-4 '>
+      {/* Main Content Area */}
+      <div className='flex-1 flex overflow-hidden'>
+        
+        {/* Mobile Toggle Button */}
+        {!isSidebarOpen && (
+          <button 
+            onClick={() => setIsSidebarOpen(true)} 
+            className='lg:hidden absolute bottom-6 right-6 z-40 bg-indigo-600 text-white p-4 rounded-full shadow-lg hover:bg-indigo-700 transition'
+          >
+            <LuHistory className="text-2xl" />
+          </button>
+        )}
 
-                {!isSidebarOpen && <button onClick={()=>setIsSidebarOpen(true)} className='lg:hidden text-white text-2xl'><GiHamburgerMenu/></button>}
-                <button className='flex items-center gap-2 
-          px-4 py-2 rounded-full
-          bg-white/10
-          border border-white/20
-          text-white text-sm' onClick={() => navigate("/pricing")}>
-                  <span className='text-xl'>💠</span>
-                  <span>{credits}</span>
-                  <motion.span whileHover={{ scale: 1.2 }}
-                    whileTap={{ scale: 0.97 }}
-                    className='ml-2 h-5 w-5 flex items-center justify-center
-                              rounded-full bg-white  text-xs font-bold'
-                  >
-                    ➕
-      
-                  </motion.span>
-      
-      
+        <AnimatePresence>
+          {isSidebarOpen && 
+            <motion.div
+              initial={{ x: -320, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: -320, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 260, damping: 30 }}
+              className='fixed lg:static top-[72px] lg:top-0 left-0 z-40 lg:z-auto
+                w-80 lg:w-80 h-[calc(100vh-72px)] lg:h-auto
+                bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl
+                border-r border-slate-200 dark:border-white/10
+                shadow-2xl lg:shadow-none
+                flex flex-col'
+            >
+              <div className="p-5 border-b border-slate-200 dark:border-white/10 flex items-center justify-between">
+                 <h2 className='text-lg font-bold flex items-center gap-2 text-slate-800 dark:text-gray-200'>
+                  <LuHistory className="text-indigo-500" /> Note History
+                </h2>
+                <button onClick={() => setIsSidebarOpen(false)} className='lg:hidden text-slate-500 hover:text-slate-800 dark:hover:text-white'>
+                 <LuArrowLeft className="text-xl" />
                 </button>
-                
-                
               </div>
 
-
-      </motion.header>
-
-
-      <div className='grid grid-cols-1 lg:grid-cols-4 gap-6'>
-        <AnimatePresence>
-
-          {isSidebarOpen && 
-          <motion.div
-          initial={{ x: -320 }}
-          animate={{ x: 0 }}
-          exit={{ x: -320 }}
-          transition={{ type: "spring", stiffness: 260, damping: 30 }}
-           className='fixed lg:static
-            top-0 left-0 z-50 lg:z-auto
-            w-72 lg:w-auto
-            h-full lg:h-[75vh]
-            lg:rounded-3xl
-            lg:col-span-1
-            bg-black/90 lg:bg-black/80
-            backdrop-blur-xl 
-            border border-white/10
-            shadow-[0_20px_45px_rgba(0,0,0,0.6)]
-            p-5
-            
-            overflow-y-auto'>
-              <button onClick={()=>setIsSidebarOpen(false)} className='lg:hidden text-white mb-4'>
-               ⬅️ back
-              </button>
-
-              <div className='mb-4 space-y-1'>
-                <button onClick={()=>navigate("/notes")} className='w-full px-3 py-2 rounded-lg text-sm text-gray-200 bg-white/10  text-start hover:bg-white/20'>
-                ➕ New Notes
+              <div className='p-4 overflow-y-auto flex-1'>
+                <button 
+                  onClick={() => navigate("/notes")} 
+                  className='w-full flex items-center justify-center gap-2 px-4 py-3 mb-6 rounded-xl text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 shadow-md transition'
+                >
+                  <LuPlus className="text-lg" /> Create New Note
                 </button>
-
-                <hr className="border-white/10 mb-4" />
-
-
-                <h2 className='mb-4 text-lg font-bold bg-gradient-to-r from-white via-gray-300 to-white bg-clip-text text-transparent'>
-                  📚 Your Notes
-                </h2>
 
                 {topics.length === 0 && (
-            <p className="text-sm text-gray-400">No notes created yet</p>
-          )}
+                  <div className="text-center py-10 px-4">
+                    <p className="text-sm text-slate-400 dark:text-slate-500">No notes created yet. Start generating!</p>
+                  </div>
+                )}
 
-          <ul className='space-y-3'>
+                <ul className='space-y-3'>
+                  {topics.map((t, i) => (
+                    <li key={i} onClick={() => openNotes(t._id)} className={`
+                      cursor-pointer rounded-xl p-4 border transition-all duration-200
+                      ${activeNoteId === t._id
+                        ? "bg-indigo-50 dark:bg-indigo-500/10 border-indigo-200 dark:border-indigo-400/50 shadow-sm"
+                        : "bg-white dark:bg-slate-800/50 border-slate-200 dark:border-white/10 hover:border-indigo-300 dark:hover:border-indigo-500/50 hover:shadow-md"
+                      }
+                    `}>
+                      <p className='text-sm font-semibold text-slate-800 dark:text-gray-200 line-clamp-2'>{t.topic}</p>
 
-            {topics.map((t,i)=>(
-              <li key={i} onClick={()=>openNotes(t._id)} className={`
-    cursor-pointer rounded-xl p-3 border transition-all
-    ${
-      activeNoteId === t._id
-        ? "bg-indigo-500/30 border-indigo-400 shadow-[0_0_0_1px_rgba(99,102,241,0.6)]"
-        : "bg-white/5 border-white/10 hover:bg-white/10"
-    }
-  `}>
+                      <div className='flex flex-wrap gap-2 mt-3 text-[10px] uppercase font-bold tracking-wider'>
+                        {t.classLevel && <span className='px-2 py-1 rounded bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300'>{t.classLevel}</span>}
+                        {t.examType && <span className='px-2 py-1 rounded bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300'>{t.examType}</span>}
+                      </div>
 
-              <p className='text-sm font-semibold text-white '>{t.topic}</p>
-
-              <div className='flex flex-wrap gap-2 mt-2 text-xs'>
-
-                {t.classLevel && <span className='px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300'>ClassLevel : {t.classLevel}</span>}
-
-                {t.examType&& <span className='px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300'> {t.examType}</span>}
-
+                      <div className='flex gap-3 mt-3 text-xs font-medium text-slate-500 dark:text-slate-400'>
+                        {t.revisionMode && <span className="flex items-center gap-1"><LuZap className="text-amber-500" /> Rev</span>} 
+                        {t.includeDiagram && <span className="flex items-center gap-1"><LuChartPie className="text-cyan-500" /> Diag</span>} 
+                        {t.includeChart && <span className="flex items-center gap-1"><LuChartBar className="text-rose-500" /> Chart</span>}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
               </div>
-
-              <div className='flex gap-3 mt-2 text-xs text-gray-300'>
-
-                {t.revisionMode && <span>⚡ Revision</span>} 
-                {t.includeDiagram && <span>📊 Diagram</span>} 
-                {t.includeChart && <span>📈 Chart</span>}
-              </div>
-
-
-              </li>
-
-              
-
-
-            ))}
-
-
-            
-          </ul>
-              </div>
-            
-            
-            </motion.div>}
+            </motion.div>
+          }
         </AnimatePresence>
 
-
+        {/* Note Display Area */}
         <motion.div 
-
-        initial={{ opacity: 0, y: -15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }} 
-        className='lg:col-span-3
-        rounded-2xl
-        bg-white
-        shadow-[0_15px_40px_rgba(0,0,0,0.15)]
-        p-6
-        min-h-[75vh]'
-
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }} 
+          className='flex-1 p-6 lg:p-10 overflow-y-auto bg-slate-50 dark:bg-slate-950'
         >
-           {loading && <p className="text-center text-gray-500">Loading notes…</p>}
-      {!loading && !selectedNote && (
-        <div className="h-full flex items-center justify-center text-gray-400">
-          Select a topic from the Sidebar
-        </div>
-      )}
+           {loading && (
+             <div className="h-full flex items-center justify-center">
+               <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-indigo-600"></div>
+             </div>
+           )}
+           
+          {!loading && !selectedNote && (
+            <div className="h-full flex flex-col items-center justify-center text-slate-400 dark:text-slate-500">
+              <LuHistory className="text-6xl mb-4 opacity-20" />
+              <p className="text-lg">Select a topic from the history sidebar</p>
+            </div>
+          )}
 
-      {!loading && selectedNote &&  <FinalResult result={selectedNote}/>}
-
-
+          {!loading && selectedNote && <FinalResult result={selectedNote}/>}
 
         </motion.div>
       </div>
-
     </div>
   )
 }

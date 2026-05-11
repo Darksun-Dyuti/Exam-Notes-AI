@@ -1,15 +1,17 @@
 import React from 'react'
 import { Bar, BarChart, Cell, Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
+import { LuChartBar } from 'react-icons/lu';
+
 function RechartSetUp({ charts }) {
     if (!charts || charts.length === 0) return null;
     const COLORS = ["#6366f1", "#22c55e", "#f59e0b", "#ef4444", "#06b6d4"];
     return (
         <div className='space-y-8'>
             {charts.map((chart, index) => (
-                <div key={index} className='border border-gray-200 rounded-xl p-4 bg-white'>
+                <div key={index} className='border border-slate-200 dark:border-white/10 rounded-xl p-6 bg-slate-50 dark:bg-slate-800/50 shadow-sm'>
 
-                    <h4 className='font-semibold text-gray-800 mb-3'>
-                        📊 {chart.title}
+                    <h4 className='font-semibold text-slate-800 dark:text-gray-200 mb-6 flex items-center gap-2'>
+                        <LuChartBar className="text-indigo-500" /> {chart.title}
                     </h4>
                     <div className='h-72'>
 

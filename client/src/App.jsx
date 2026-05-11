@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import History from './pages/History'
 import Notes from './pages/Notes'
 import Pricing from './pages/Pricing'
+import Profile from './pages/Profile'
 import PaymentSuccess from './pages/PaymentSuccess'
 import PaymentFailed from './pages/PaymentFailed'
 export const serverUrl = "http://localhost:8000"
@@ -26,6 +27,7 @@ function App() {
       <Route path='/history' element={userData? <History/> : <Navigate to="/auth" replace/>}/>
       <Route path='/notes' element={userData? <Notes/> : <Navigate to="/auth" replace/>}/>
       <Route path='/pricing' element={userData? <Pricing/> : <Navigate to="/auth" replace/>}/>
+      <Route path='/profile' element={userData? <Profile/> : <Navigate to="/auth" replace/>}/>
 
       <Route path='/payment-success' element={<PaymentSuccess/>}/>
       <Route path='/payment-failed' element={<PaymentFailed/>}/>
