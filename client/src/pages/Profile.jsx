@@ -35,7 +35,7 @@ function Profile() {
   }
 
   return (
-    <div className='min-h-screen overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white relative transition-colors duration-300'>
+    <div className='min-h-screen overflow-x-hidden bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white relative transition-colors duration-300'>
       <Navbar />
 
       <main className='max-w-3xl mx-auto px-6 py-12 relative z-10'>

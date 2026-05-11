@@ -30,7 +30,7 @@ function Pricing() {
     }
   }
   return (
-    <div className='min-h-screen overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white relative transition-colors duration-300'>
+    <div className='min-h-screen overflow-x-hidden bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white relative transition-colors duration-300'>
       <Navbar />
 
       <main className='max-w-5xl mx-auto px-6 py-12 relative z-10 mt-6'>
@@ -44,7 +44,7 @@ function Pricing() {
           </p>
         </motion.div>
 
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
 
           <PricingCard 
             title="Starter"

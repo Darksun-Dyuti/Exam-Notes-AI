@@ -98,7 +98,7 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
         backdrop-blur-xl
         border border-slate-200/50 dark:border-white/10
         shadow-xl
-        p-8
+        p-6 md:p-8
         space-y-6
         text-slate-900 dark:text-white
       ">

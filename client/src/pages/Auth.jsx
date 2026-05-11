@@ -31,7 +31,7 @@ function Auth() {
   }
 
   return (
-    <div className='min-h-screen overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white relative transition-colors duration-300'>
+    <div className='min-h-screen overflow-x-hidden bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white relative transition-colors duration-300'>
         {/* Background gradients */}
         <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-indigo-600/5 rounded-full blur-[120px] pointer-events-none" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-600/5 rounded-full blur-[120px] pointer-events-none" />
@@ -60,7 +60,7 @@ function Auth() {
             </div>
         </motion.header>
 
-        <main className='relative z-10 max-w-7xl mx-auto px-8 py-20 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center min-h-[70vh]'>
+        <main className='relative z-10 max-w-7xl mx-auto px-6 md:px-8 py-10 md:py-20 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center min-h-[70vh]'>
         
           {/* LEFT CONTENT */}
           <motion.div 
@@ -68,7 +68,7 @@ function Auth() {
             animate={{opacity: 1, x: 0}}
             transition={{duration: 0.7}}
           >
-              <h1 className='text-5xl lg:text-7xl font-extrabold leading-tight tracking-tight
+              <h1 className='text-4xl md:text-5xl lg:text-7xl font-extrabold leading-tight tracking-tight
                 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-500 
                 dark:from-white dark:via-white dark:to-gray-400
                 bg-clip-text text-transparent'>

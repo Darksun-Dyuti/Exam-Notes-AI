@@ -9,13 +9,13 @@ import { LuGift, LuBook, LuFolder, LuChartBar, LuDownload } from "react-icons/lu
 function Home() {
   const navigate = useNavigate()
   return (
-    <div className='min-h-screen overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white relative transition-colors duration-300'>
+    <div className='min-h-screen overflow-x-hidden bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white relative transition-colors duration-300'>
       {/* Background gradients */}
       <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-indigo-600/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-600/5 rounded-full blur-[120px] pointer-events-none" />
       <Navbar />
       {/* top */}
-      <section className='max-w-7xl mx-auto px-8 pt-32 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center'>
+      <section className='max-w-7xl mx-auto px-6 md:px-8 pt-16 md:pt-32 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center'>
         <div>
           <motion.div
             initial={{ opacity: 0, x: -60 }}
@@ -25,7 +25,7 @@ function Home() {
             className="transform-gpu"
             style={{ transformStyle: "preserve-3d" }}
           >
-            <motion.h1 className="text-5xl lg:text-7xl font-extrabold leading-tight tracking-tight
+            <motion.h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold leading-tight tracking-tight
               bg-gradient-to-br from-slate-900 via-slate-800 to-slate-500
               dark:from-white dark:via-white dark:to-gray-400
               bg-clip-text text-transparent"
@@ -90,7 +90,7 @@ function Home() {
       </section>
 
       {/* bottom */}
-      <section className='max-w-6xl mx-auto px-8 py-32'>
+      <section className='max-w-6xl mx-auto px-6 md:px-8 py-16 md:py-32'>
         <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
           <Feature icon={<LuGift />} title="Free Credits" des="Start generating notes instantly without paying."/>
           <Feature icon={<LuBook />} title="Exam Notes" des="High-yield, revision-ready materials." />
