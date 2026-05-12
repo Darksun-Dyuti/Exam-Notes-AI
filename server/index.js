@@ -23,7 +23,7 @@ app.post(
 );
 
 app.use(cors(
-    {origin: "hhttps://exam-notes-ai-client.onrender.com",
+    {origin: "https://notecraftz-ai.onrender.com",
         credentials:true,
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     }
