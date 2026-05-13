@@ -13,17 +13,22 @@ export const googleAuth = async (req,res) => {
             })
         }
         let token = await getToken(user._id)
-        res.cookie("token" , token , {
-            httpOnly:true,
-            secure:true,
-            sameSite:"none",
+        
+        // Cookie options for production (HTTPS) and cross-site compatibility
+        const cookieOptions = {
+            httpOnly: true,
+            secure: true, // Required for sameSite: "none"
+            sameSite: "none", // Required for cross-site cookies between different Render domains
             path: "/",
-            maxAge:7 * 24 * 60 * 60 * 1000
+            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+        };
 
-        })
+        res.cookie("token", token, cookieOptions);
+        
         return res.status(200).json(user)
     } catch (error) {
-        return res.status(500).json({message:`googleSignup Error  ${error}`})
+        console.error("Google Auth Error:", error);
+        return res.status(500).json({ message: "Internal server error during authentication" });
     }
     
 }

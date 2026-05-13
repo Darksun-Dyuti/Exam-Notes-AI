@@ -10,7 +10,8 @@ import Pricing from './pages/Pricing'
 import Profile from './pages/Profile'
 import PaymentSuccess from './pages/PaymentSuccess'
 import PaymentFailed from './pages/PaymentFailed'
-export const serverUrl = "https://exam-notes-ai-backend.onrender.com"
+export const serverUrl = import.meta.env.VITE_SERVER_URL || 
+  (import.meta.env.DEV ? "http://localhost:8000" : "https://exam-notes-ai-backend.onrender.com");
 
 function App() {
   const dispatch = useDispatch()

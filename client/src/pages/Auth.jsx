@@ -13,20 +13,37 @@ import logo from "../assets/logo.png"
 import { LuGift, LuBook, LuFolder, LuChartBar, LuDownload } from "react-icons/lu"
 
 function Auth() {
+  const [isLoading, setIsLoading] = React.useState(false)
+  const [error, setError] = React.useState(null)
   const dispatch = useDispatch()
 
   const handleGoogleAuth = async () => {
+    setIsLoading(true)
+    setError(null)
     try {
-      const response = await signInWithPopup(auth,provider)
+      const response = await signInWithPopup(auth, provider)
       const User = response.user
       const name = User.displayName
       const email = User.email
-      const result = await axios.post(serverUrl + "/api/auth/google" , {name , email},{
-        withCredentials:true
+      
+      const result = await axios.post(serverUrl + "/api/auth/google", { name, email }, {
+        withCredentials: true
       })
-      dispatch(setUserData(result.data))
+      
+      if (result.data) {
+        dispatch(setUserData(result.data))
+      } else {
+        setError("Login failed. Please try again.")
+      }
     } catch (error) {
       console.log(error)
+      if (error.code === 'auth/popup-closed-by-user') {
+        setError("Sign-in popup was closed before completion.")
+      } else {
+        setError("An error occurred during sign-in. The server might be waking up, please try again in a moment.")
+      }
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -76,21 +93,52 @@ function Auth() {
               </h1>
               <motion.button
                 onClick={handleGoogleAuth}
-                whileHover={{
+                disabled={isLoading}
+                whileHover={!isLoading ? {
                   scale: 1.05,
                   boxShadow: "0 0 30px rgba(99, 102, 241, 0.4)"
-                }}
-                whileTap={{scale: 0.95}}
-                className='mt-10 px-8 py-4 rounded-full
+                } : {}}
+                whileTap={!isLoading ? {scale: 0.95} : {}}
+                className={`mt-10 px-8 py-4 rounded-full
                 flex items-center gap-3
-                bg-white dark:bg-slate-800
+                ${isLoading ? 'bg-slate-100 dark:bg-slate-800 opacity-70 cursor-not-allowed' : 'bg-white dark:bg-slate-800'}
                 border border-slate-200 dark:border-white/10
                 text-slate-900 dark:text-white font-semibold text-lg
-                shadow-xl hover:shadow-2xl transition-all duration-300'
+                shadow-xl hover:shadow-2xl transition-all duration-300`}
               >
-                  <FcGoogle size={24}/>
-                  Continue with Google
+                  {isLoading ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+                      <span>Verifying account...</span>
+                    </>
+                  ) : (
+                    <>
+                      <FcGoogle size={24}/>
+                      Continue with Google
+                    </>
+                  )}
               </motion.button>
+
+              {error && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-4 p-4 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/30 text-red-600 dark:text-red-400 text-sm flex items-center gap-2"
+                >
+                  <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-red-500" />
+                  {error}
+                </motion.div>
+              )}
+
+              {isLoading && (
+                <motion.p 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="mt-4 text-sm text-indigo-600 dark:text-indigo-400 animate-pulse"
+                >
+                  Note: The server may take up to 30 seconds to wake up.
+                </motion.p>
+              )}
 
               <p className='mt-8 max-w-xl text-lg text-slate-600 dark:text-gray-400 font-light leading-relaxed'>
                   You get <span className="font-semibold text-indigo-600 dark:text-indigo-400">50 FREE credits</span> to create
