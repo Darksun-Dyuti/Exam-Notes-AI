@@ -112,9 +112,16 @@ STRICT JSON FORMAT (DO NOT CHANGE):
   "notes": "string",
   "revisionPoints": [],
   "questions": {
-    "short": [],
-    "long": [],
-    "diagram": ""
+    "short": [
+      { "question": "string", "answer": "string" }
+    ],
+    "long": [
+      { "question": "string", "answer": "string" }
+    ],
+    "diagram": {
+      "question": "string",
+      "answer": "string"
+    }
   },
   "diagram": {
     "type": "flowchart | graph | process",

@@ -60,18 +60,35 @@ export const pdfDownload = async (req,res) => {
 
   doc.fontSize(13).text("Short Questions:");
   result.questions.short.forEach((q) => {
-    doc.fontSize(12).text(`• ${q}`);
+    const questionText = typeof q === 'string' ? q : q.question;
+    const answerText = typeof q === 'string' ? null : q.answer;
+    doc.fontSize(12).text(`• Q: ${questionText}`);
+    if (answerText) {
+      doc.fontSize(11).text(`  A: ${answerText}`);
+    }
   });
 
   doc.moveDown(0.5);
   doc.fontSize(13).text("Long Questions:");
   result.questions.long.forEach((q) => {
-    doc.fontSize(12).text(`• ${q}`);
+    const questionText = typeof q === 'string' ? q : q.question;
+    const answerText = typeof q === 'string' ? null : q.answer;
+    doc.fontSize(12).text(`• Q: ${questionText}`);
+    if (answerText) {
+      doc.fontSize(11).text(`  A: ${answerText}`);
+    }
   });
 
   doc.moveDown(0.5);
   doc.fontSize(13).text("Diagram Question:");
-  doc.fontSize(12).text(result.questions.diagram);
+  const diagQuestion = typeof result.questions.diagram === 'string' ? result.questions.diagram : result.questions.diagram?.question;
+  const diagAnswer = typeof result.questions.diagram === 'string' ? null : result.questions.diagram?.answer;
+  if (diagQuestion) {
+    doc.fontSize(12).text(`Q: ${diagQuestion}`);
+  }
+  if (diagAnswer) {
+    doc.fontSize(11).text(`A: ${diagAnswer}`);
+  }
 
   doc.end();
 

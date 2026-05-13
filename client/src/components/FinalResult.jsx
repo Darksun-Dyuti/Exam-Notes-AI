@@ -160,28 +160,77 @@ function FinalResult({ result }) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="p-5 rounded-xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-white/10 shadow-sm">
                         <p className='font-bold text-slate-800 dark:text-gray-200 mb-3 pb-2 border-b border-slate-100 dark:border-white/5'>Short Answer Questions</p>
-                        <ul className='list-disc ml-5 text-sm text-slate-600 dark:text-slate-300 space-y-2'>
-                            {result.questions.short.map((q, i) => (
-                                <li key={i}>{q}</li>
-                            ))}
+                        <ul className='space-y-4 text-sm'>
+                            {result.questions.short.map((q, i) => {
+                                const qText = typeof q === 'string' ? q : q.question;
+                                const aText = typeof q === 'string' ? null : q.answer;
+                                return (
+                                    <li key={i} className="flex flex-col gap-1.5">
+                                        <div className="flex gap-2">
+                                            <span className="font-semibold text-indigo-500 dark:text-indigo-400 min-w-5">Q:</span>
+                                            <span className="text-slate-700 dark:text-slate-200 font-medium">{qText}</span>
+                                        </div>
+                                        {aText && (
+                                            <div className="flex gap-2 ml-7 pl-3 border-l-2 border-emerald-400/50 dark:border-emerald-500/30">
+                                                <span className="font-semibold text-emerald-600 dark:text-emerald-400 min-w-5">A:</span>
+                                                <span className="text-slate-600 dark:text-slate-300">{aText}</span>
+                                            </div>
+                                        )}
+                                    </li>
+                                )
+                            })}
                         </ul>
                     </div>
 
                     <div className="p-5 rounded-xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-white/10 shadow-sm">
                         <p className='font-bold text-slate-800 dark:text-gray-200 mb-3 pb-2 border-b border-slate-100 dark:border-white/5'>Long Answer Questions</p>
-                        <ul className='list-disc ml-5 text-sm text-slate-600 dark:text-slate-300 space-y-2'>
-                            {result.questions.long.map((q, i) => (
-                                <li key={i}>{q}</li>
-                            ))}
+                        <ul className='space-y-4 text-sm'>
+                            {result.questions.long.map((q, i) => {
+                                const qText = typeof q === 'string' ? q : q.question;
+                                const aText = typeof q === 'string' ? null : q.answer;
+                                return (
+                                    <li key={i} className="flex flex-col gap-1.5">
+                                        <div className="flex gap-2">
+                                            <span className="font-semibold text-indigo-500 dark:text-indigo-400 min-w-5">Q:</span>
+                                            <span className="text-slate-700 dark:text-slate-200 font-medium">{qText}</span>
+                                        </div>
+                                        {aText && (
+                                            <div className="flex gap-2 ml-7 pl-3 border-l-2 border-emerald-400/50 dark:border-emerald-500/30">
+                                                <span className="font-semibold text-emerald-600 dark:text-emerald-400 min-w-5">A:</span>
+                                                <span className="text-slate-600 dark:text-slate-300">{aText}</span>
+                                            </div>
+                                        )}
+                                    </li>
+                                )
+                            })}
                         </ul>
                     </div>
                 </div>
 
                 <div className="p-5 rounded-xl bg-slate-50 dark:bg-slate-800/30 border border-slate-200 dark:border-white/10 shadow-sm">
                     <p className='font-bold text-slate-800 dark:text-gray-200 mb-2'>Diagram / Application Question</p>
-                    <p className="text-sm text-slate-600 dark:text-slate-300 ml-2 border-l-2 border-indigo-500 pl-3 py-1">
-                        {result.questions.diagram}
-                    </p>
+                    <div className="text-sm space-y-3">
+                        {(() => {
+                            const qText = typeof result.questions.diagram === 'string' ? result.questions.diagram : result.questions.diagram?.question;
+                            const aText = typeof result.questions.diagram === 'string' ? null : result.questions.diagram?.answer;
+                            return (
+                                <>
+                                    {qText && (
+                                        <div className="flex gap-2 border-l-2 border-indigo-500 pl-3 py-1">
+                                            <span className="font-semibold text-indigo-600 dark:text-indigo-400 min-w-5">Q:</span>
+                                            <span className="text-slate-700 dark:text-slate-200 font-medium">{qText}</span>
+                                        </div>
+                                    )}
+                                    {aText && (
+                                        <div className="flex gap-2 ml-5 border-l-2 border-emerald-400/50 dark:border-emerald-500/30 pl-3 py-1 mt-2">
+                                            <span className="font-semibold text-emerald-600 dark:text-emerald-400 min-w-5">A:</span>
+                                            <span className="text-slate-600 dark:text-slate-300">{aText}</span>
+                                        </div>
+                                    )}
+                                </>
+                            )
+                        })()}
+                    </div>
                 </div>
             </section>
         </div>
